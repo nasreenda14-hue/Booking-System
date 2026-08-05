@@ -2,7 +2,7 @@ import Service from "../models/Service.js";
 
 export const createService=async (req,res)=>{
   try {
-    const { name,category } = req.body;
+    const { name,category,description,image } = req.body;
 
   
     if (!name) {
@@ -18,7 +18,7 @@ export const createService=async (req,res)=>{
         message: "Service already exists",
       });
     }
-const service = await Service.create({ name,category });
+const service = await Service.create({ name,category,description,image });
 
     res.status(201).json({
       success: true,
@@ -36,7 +36,9 @@ const service = await Service.create({ name,category });
 
 export const getServices = async (req, res) => {
   try {
-    const services = await Service.find();
+    const {category}=req.query;
+    
+    const services = await Service.find({category:category});
 
     res.status(200).json({
       success: true,

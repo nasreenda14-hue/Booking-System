@@ -12,7 +12,14 @@ const ServiceSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
       required: true
-    }
+    },
+    description: {
+        type: String,
+        trim: true
+    },
+    image: {
+        type: String,
+    },
   },
   { timestamps: true }
 );
