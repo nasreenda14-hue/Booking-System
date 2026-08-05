@@ -5,12 +5,12 @@ import Category from "../models/Category.js";
 // 🔹 CREATE CATEGORY
 export const createCategory = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name,image } = req.body;
 
-    if (!name) {
+    if (!name || !image) {
       return res.status(400).json({
         success: false,
-        message: "Category name is required",
+        message: "Category name and image are required",
       });
     }
 
@@ -24,7 +24,7 @@ export const createCategory = async (req, res) => {
       });
     }
 
-    const category = await Category.create({ name });
+    const category = await Category.create({ name,image });
 
     res.status(201).json({
       success: true,
