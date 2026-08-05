@@ -3,22 +3,22 @@
 import { useState } from "react";
 
  export default function AddProvider() {
-//   const [form, setForm] = useState({
-//     name: "",
-//     category: "",
-//     location: "",
-//     price: "",
-//     image: ""
-//   });
+  const [form, setForm] = useState({
+    name: "",
+    category: "",
+    location: "",
+    price: "",
+    image: ""
+  });
 
-//   const handleChange = (e) => {
-//     setForm({ ...form, [e.target.name]: e.target.value });
-//   };
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     console.log(form); // later send to backend
-//   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(form); // later send to backend
+  };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white shadow rounded-xl">
