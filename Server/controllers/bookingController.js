@@ -5,7 +5,7 @@ import Category from "../models/Category.js";
 
 export const createBooking=async (req,res)=>{
     try{
-        const { user, provider, service, date, time } = req.body;
+        const { user, provider, service,address,phone, date, time } = req.body;
 
         const serviceExists = await Service.findById(service);
     if (!serviceExists) {
@@ -23,12 +23,18 @@ export const createBooking=async (req,res)=>{
       });
     }
 
-     if (!providerExists.services.includes(service)) {
-      return res.status(400).json({
-        success: false,
-        message: "Provider does not offer this service",
-      });
-    }
+     const serviceOffered = providerExists.services.some(
+  (s) => s.service.toString() === service.toString()
+);
+
+if (!serviceOffered) {
+  return res.status(400).json({
+    success: false,
+    message: "Provider does not offer this service",
+  });
+}
+
+
 
     const bookingDate = new Date(date);
     const today = new Date();
@@ -39,10 +45,17 @@ export const createBooking=async (req,res)=>{
         message: "Cannot book past dates",
       });
     }
-
+      
+    if (phone.length !== 10) {
+  return res.status(400).json({
+    message: "Invalid phone number",
+  });
+}
     const existingBooking = await Booking.findOne({
       provider,
       date: bookingDate,
+      address,
+      phone,
       time,
       status: { $ne: "cancelled" },
     });
@@ -57,6 +70,8 @@ export const createBooking=async (req,res)=>{
   provider,
   date: bookingDate,
   time,
+  address,
+  phone,
   status: { $ne: "cancelled" },
 });
 
@@ -71,6 +86,8 @@ if (count >= 3) {
   provider,
   date: bookingDate,
   time,
+  address,
+  phone,
 });
 
 if (alreadyBooked) {
@@ -84,6 +101,8 @@ if (alreadyBooked) {
       service,
       date: bookingDate,
       time,
+      address,
+      phone,
     });
 
     const savedBooking = await newBooking.save();
@@ -97,7 +116,7 @@ if (alreadyBooked) {
          res.status(500).json({
       success: false,
       message: "Booking failed",
-      error: error.message,
+      error: err.message,
     });
     }
 }

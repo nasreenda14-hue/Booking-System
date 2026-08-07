@@ -1,12 +1,12 @@
+import mongoose from "mongoose";
 import Provider from "../models/Provider.js";
 import Service from "../models/Service.js";
 
 
 export const createProvider = async (req, res) => {
   try {
-    const { name,category, services,location,workers } = req.body;
+    const { name, category, services, image, location, workers } = req.body;
 
-    
     if (!name || !services || services.length === 0) {
       return res.status(400).json({
         success: false,
@@ -15,8 +15,11 @@ export const createProvider = async (req, res) => {
     }
 
     
+    const serviceIds = services.map((s) => s.service);
+
+  
     const validServices = await Service.find({
-      _id: { $in: services },
+      _id: { $in: serviceIds },
     });
 
     if (validServices.length !== services.length) {
@@ -26,12 +29,14 @@ export const createProvider = async (req, res) => {
       });
     }
 
+   
     const provider = await Provider.create({
       name,
       category,
-      services,
+      services, 
+      image,
       location,
-      workers
+      workers,
     });
 
     res.status(201).json({
@@ -49,9 +54,22 @@ export const createProvider = async (req, res) => {
 };
 
 
+
+
 export const getProviders = async (req, res) => {
   try {
-    const providers = await Provider.find().populate("services");
+    const { service } = req.query;
+
+    let query = {};
+
+    if (service) {
+      query = {
+        "services.service": new mongoose.Types.ObjectId(service)
+      };
+    }
+
+    const providers = await Provider.find(query)
+      .populate("services.service");
 
     res.status(200).json({
       success: true,

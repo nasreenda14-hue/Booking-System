@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { categories } from "../data/categories";
 import { useEffect, useState } from "react";
-import API from "../api/api";
+import API from "../api/api.js";
 
 export default function Categories() {
   const navigate = useNavigate();

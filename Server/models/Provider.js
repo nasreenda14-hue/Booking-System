@@ -14,10 +14,18 @@ const ProviderSchema = new mongoose.Schema(
       required: true
     },
     services:[{
+        service: {
         type: mongoose.Schema.Types.ObjectId,
         ref:"Service",
         required:true
-    }],
+    },
+        price: {
+        type: Number,
+        required: true
+      }}],
+    image:{
+        type:String
+    },
     location:{
         type:String,
         trim:true,
@@ -26,6 +34,9 @@ const ProviderSchema = new mongoose.Schema(
     workers:{
         type:Number,
         required:true
+    },
+    price:{
+        type:Number
     }
   },
   { timestamps: true }

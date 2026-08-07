@@ -17,13 +17,22 @@ const BookingSchema = new mongoose.Schema(
       ref: "Service",
       required: true
     },
+    phone: {
+  type: String,
+  required: true,
+},
+
+address: {
+  type: String,
+  required: true,
+},
     date:{
     type:Date,
     required:true
     },
     time:{
         type:String,
-        required:true,
+        
     },
     status:{
         type:String,

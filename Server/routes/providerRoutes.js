@@ -3,7 +3,7 @@ import { createProvider, getProviders } from "../controllers/providerController.
 
 const router = express.Router();
 
-router.post("/create", createProvider);
+router.post("/", createProvider);
 router.get("/", getProviders);
 
 export default router;
