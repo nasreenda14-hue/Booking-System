@@ -14,10 +14,8 @@ export const createProvider = async (req, res) => {
       });
     }
 
-    
     const serviceIds = services.map((s) => s.service);
-
-  
+    
     const validServices = await Service.find({
       _id: { $in: serviceIds },
     });
@@ -29,8 +27,7 @@ export const createProvider = async (req, res) => {
       });
     }
 
-   
-    const provider = await Provider.create({
+   const provider = await Provider.create({
       name,
       category,
       services, 

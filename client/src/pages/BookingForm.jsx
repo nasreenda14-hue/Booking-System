@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import API from "../api/api.js";
 
 
@@ -7,6 +7,7 @@ import API from "../api/api.js";
 const BookingForm = () => {
 
   const { providerId, serviceId } = useParams();
+  const navigate = useNavigate();
 
   console.log("booking form",{providerId, serviceId})
 
@@ -57,6 +58,7 @@ const [address, setAddress] = useState("");
       });
 
       alert("Booking Confirmed ✅");
+      navigate("/"); 
 
     } catch (err) {
       console.log("ERROR:", err.response?.data);

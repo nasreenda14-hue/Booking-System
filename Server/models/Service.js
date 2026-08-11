@@ -13,6 +13,11 @@ const ServiceSchema = new mongoose.Schema(
       ref: "Category",
       required: true
     },
+    serviceMode: {
+    type: String,
+    enum: ["Home", "Visit"],
+    required: true,
+  },
     description: {
         type: String,
         trim: true

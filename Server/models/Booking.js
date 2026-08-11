@@ -5,7 +5,7 @@ const BookingSchema = new mongoose.Schema(
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User",
-        
+        required: true,
     },
     provider: {
       type: mongoose.Schema.Types.ObjectId,
@@ -24,7 +24,7 @@ const BookingSchema = new mongoose.Schema(
 
 address: {
   type: String,
-  required: true,
+  required: false,
 },
     date:{
     type:Date,
@@ -39,6 +39,7 @@ address: {
         enum:["pending","confirmed","cancelled",],
         default:"pending",
     },
+    
 },
   { timestamps: true }
 );

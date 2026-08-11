@@ -165,6 +165,9 @@ export default function ProviderForm() {
               {servicesList.map((ser) => (
                 <option key={ser._id} value={ser._id}>
                   {ser.name}
+                  {ser.serviceMode === "home" 
+      ? " 🏠 Home" 
+      : " 🏢 Visit"}
                 </option>
               ))}
             </select>

@@ -1,8 +1,5 @@
-// controllers/categoryController.js
 import Category from "../models/Category.js";
 
-
-// 🔹 CREATE CATEGORY
 export const createCategory = async (req, res) => {
   try {
     const { name,image } = req.body;
@@ -92,11 +89,11 @@ export const getCategoryById = async (req, res) => {
 // 🔹 UPDATE CATEGORY
 export const updateCategory = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name,image } = req.body;
 
     const category = await Category.findByIdAndUpdate(
       req.params.id,
-      { name },
+      { name,image },
       { new: true }
     );
 
@@ -119,7 +116,14 @@ export const updateCategory = async (req, res) => {
 // 🔹 DELETE CATEGORY
 export const deleteCategory = async (req, res) => {
   try {
-    await Category.findByIdAndDelete(req.params.id);
+    const category = await Category.findByIdAndDelete(req.params.id);
+
+    if (!category) {
+      return res.status(404).json({
+        success: false,
+        message: "Category not found",
+      });
+    }
 
     res.status(200).json({
       success: true,

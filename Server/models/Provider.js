@@ -35,9 +35,6 @@ const ProviderSchema = new mongoose.Schema(
         type:Number,
         required:true
     },
-    price:{
-        type:Number
-    }
   },
   { timestamps: true }
 );

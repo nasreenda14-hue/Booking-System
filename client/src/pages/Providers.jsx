@@ -1,10 +1,11 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API from "../api/api.js";
 
 export default function Providers() {
   const { serviceId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,6 +24,22 @@ export default function Providers() {
       setLoading(false);
     }
   };
+
+const handleBooking = (providerId) => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    navigate("/login", {
+       state: {
+        from: location.pathname,
+        providerId,
+        serviceId,
+      },
+    });
+  } else {
+     navigate(`/booking/${providerId}/${serviceId}`);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 px-6 py-10">
@@ -102,9 +119,7 @@ export default function Providers() {
                     </span>
 
                     <span className="bg-white text-gray-800 text-xs px-3 py-1 rounded-full font-semibold shadow" 
-            onClick={() =>
-  navigate(`/booking/${provider._id}/${serviceId}`)
-}>
+           onClick={() => handleBooking(provider._id)}>
                       Book Now
                     </span>
                   </div>

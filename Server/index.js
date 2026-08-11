@@ -7,6 +7,7 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import bookingRoute from  "./routes/bookingRoutes.js"
 import serviceRoutes from "./routes/serviceRoutes.js";
 import providerRoutes from "./routes/providerRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
  
 const app = express();
 
@@ -21,6 +22,8 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/service", serviceRoutes);
 app.use("/api/providers", providerRoutes);
 app.use("/api/booking", bookingRoute);
+app.use("/api",authRoutes)
+
 
 
 app.listen(PORT, () => console.log("Server running"));
