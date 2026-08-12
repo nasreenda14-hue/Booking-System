@@ -39,7 +39,21 @@ address: {
         enum:["pending","confirmed","cancelled",],
         default:"pending",
     },
-    
+    price: {
+  type: Number,
+  required: true,
+},
+
+paymentStatus: {
+  type: String,
+  enum: ["pending", "paid", "failed", "refunded"],
+  default: "pending",
+},
+
+paymentId: {
+  type: String,
+  default: null,
+},
 },
   { timestamps: true }
 );

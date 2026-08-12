@@ -80,3 +80,26 @@ export const getProviders = async (req, res) => {
     });
   }
 };
+
+export const getProviderById = async (req, res) => {
+  try {
+    const provider = await Provider.findById(req.params.id);
+
+    if (!provider) {
+      return res.status(404).json({
+        success: false,
+        message: "Provider not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      provider,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

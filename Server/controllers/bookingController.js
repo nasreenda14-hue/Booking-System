@@ -5,7 +5,6 @@ import Provider from "../models/Provider.js";
 export const createBooking = async (req, res) => {
   try {
     const {
-      user,
       provider,
       service,
       address,
@@ -14,7 +13,8 @@ export const createBooking = async (req, res) => {
       time,
     } = req.body;
 
-    
+     const user = req.user.id;
+
     const serviceExists = await Service.findById(service);
 
     if (!serviceExists) {
@@ -35,17 +35,26 @@ export const createBooking = async (req, res) => {
     }
 
     
-    const serviceOffered = providerExists.services.some(
+    const providerService = providerExists.services.find(
       (s) =>
         s.service.toString() === service.toString()
     );
 
-    if (!serviceOffered) {
+    if (!providerService) {
       return res.status(400).json({
         success: false,
         message: "Provider does not offer this service",
       });
     }
+
+     const price = providerService.price; 
+    if (!price || price <= 0) {
+       return res.status(400).json({
+         success: false, 
+         message: "Invalid service price", 
+        });
+       }
+
 
    
     if (!phone || phone.length !== 10) {
@@ -55,8 +64,8 @@ export const createBooking = async (req, res) => {
       });
     }
 
-    
-    if (serviceExists.serviceMode === "home") {
+   
+    if (serviceExists.serviceMode === "Home") {
       if (!address || address.trim() === "") {
         return res.status(400).json({
           success: false,
@@ -74,12 +83,12 @@ export const createBooking = async (req, res) => {
         message: "Invalid booking date",
       });
     }
-
+bookingDate.setHours(0, 0, 0, 0);
    
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    bookingDate.setHours(0, 0, 0, 0);
+    
 
     if (bookingDate < today) {
       return res.status(400).json({
@@ -128,10 +137,13 @@ export const createBooking = async (req, res) => {
       date: bookingDate,
       time,
       address:
-        serviceExists.serviceMode === "home"
+        serviceExists.serviceMode === "Home"
           ? address
           : "",
       phone,
+      price,
+      paymentStatus: "pending",
+      status: "pending",
     });
 
     const savedBooking = await newBooking.save();
@@ -175,6 +187,38 @@ export const getBookingsByDate = async (req, res) => {
     res.status(500).json({
       success: false,
       message: err.message,
+    });
+  }
+};
+
+export const getBookingById = async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id)
+      .populate("provider", "name location")
+      .populate("service", "name");
+
+    if (!booking) {
+      return res.status(404).json({
+        success: false,
+        message: "Booking not found",
+      });
+    }
+
+    if (booking.user.toString() !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      booking,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 };

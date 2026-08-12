@@ -6,10 +6,11 @@ import { Route, Routes } from 'react-router-dom'
 import Service from './pages/Service'
 import ProviderForm from './provider/ProviderForm'
 import BookingForm from './pages/BookingForm'
-import ProtectedRoute from './components/ProtectedRoute'
-import RoleRoute from './components/RoleRoute'
+import ProtectedRoute from './routes/ProtectedRoute.jsx'
+import RoleRoute from './routes/RoleRoute.jsx'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Payment from "./pages/Payment.jsx";
 
 function App() {
   return (
@@ -32,7 +33,9 @@ function App() {
               <BookingForm />
             </ProtectedRoute>
           } />
+           <Route path="/payment/:bookingId" element={<Payment />}/>
     </Routes>
+   
     </div>
   )
 }

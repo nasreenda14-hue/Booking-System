@@ -18,6 +18,7 @@ const BookingForm = () => {
   const [date, setDate] = useState("");
   const [phone, setPhone] = useState("");
 const [address, setAddress] = useState("");
+const [selectedTime, setSelectedTime] = useState("");
 
   // Fetch provider + service details
   useEffect(() => {
@@ -44,27 +45,34 @@ const [address, setAddress] = useState("");
 
   // Submit booking
   const handleBooking = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
+  try {
+    const res = await API.post("/booking", {
+      provider: providerId,
+      service: serviceId,
+      date,
+       time: selectedTime,
+      phone,
+      address,
+    });
 
-      await API.post("/booking", {
-        provider: providerId,
-        service: serviceId,
-        name,
-        address,
-        phone,
-        date,
-      });
+    // Booking created successfully
+    const bookingId = res.data.booking._id;
 
-      alert("Booking Confirmed ✅");
-      navigate("/"); 
+    // Go to payment
+    navigate(`/payment/${bookingId}`);
 
-    } catch (err) {
-      console.log("ERROR:", err.response?.data);
-  alert(err.response?.data?.message || "Booking Failed ❌");
-    }
-  };
+  } catch (error) {
+  console.error("BOOKING ERROR:", error.response?.data || error);
+
+  alert(
+    error.response?.data?.message ||
+      error.response?.data?.error ||
+      "Booking failed"
+  );
+}
+}
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -135,13 +143,18 @@ const [address, setAddress] = useState("");
           required
         />
 
-        {/* Submit */}
         <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-3 rounded hover:bg-blue-600"
-        >
-          Confirm Booking
-        </button>
+  onClick={() => setSelectedTime("3:00 PM")}
+>
+  3:00 PM
+</button>
+
+       <button
+  onClick={handleBooking}
+  className="w-full bg-black text-white py-3 rounded-xl font-semibold"
+>
+  Confirm Booking & Pay
+</button>
 
       </form>
     </div>
