@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import Provider from "../models/Provider.js";
 import Service from "../models/Service.js";
 
-
 export const createProvider = async (req, res) => {
   try {
     const { name, category, services, image, location, workers } = req.body;
@@ -15,7 +14,7 @@ export const createProvider = async (req, res) => {
     }
 
     const serviceIds = services.map((s) => s.service);
-    
+
     const validServices = await Service.find({
       _id: { $in: serviceIds },
     });
@@ -27,10 +26,10 @@ export const createProvider = async (req, res) => {
       });
     }
 
-   const provider = await Provider.create({
+    const provider = await Provider.create({
       name,
       category,
-      services, 
+      services,
       image,
       location,
       workers,
@@ -41,7 +40,6 @@ export const createProvider = async (req, res) => {
       message: "Provider created",
       provider,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -49,9 +47,6 @@ export const createProvider = async (req, res) => {
     });
   }
 };
-
-
-
 
 export const getProviders = async (req, res) => {
   try {
@@ -61,18 +56,16 @@ export const getProviders = async (req, res) => {
 
     if (service) {
       query = {
-        "services.service": new mongoose.Types.ObjectId(service)
+        "services.service": new mongoose.Types.ObjectId(service),
       };
     }
 
-    const providers = await Provider.find(query)
-      .populate("services.service");
+    const providers = await Provider.find(query).populate("services.service");
 
     res.status(200).json({
       success: true,
       providers,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,

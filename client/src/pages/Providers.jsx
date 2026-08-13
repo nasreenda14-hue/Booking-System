@@ -25,21 +25,21 @@ export default function Providers() {
     }
   };
 
-const handleBooking = (providerId) => {
-  const token = localStorage.getItem("token");
+  const handleBooking = (providerId) => {
+    const token = localStorage.getItem("token");
 
-  if (!token) {
-    navigate("/login", {
-       state: {
-        from: location.pathname,
-        providerId,
-        serviceId,
-      },
-    });
-  } else {
-     navigate(`/booking/${providerId}/${serviceId}`);
-  }
-};
+    if (!token) {
+      navigate("/login", {
+        state: {
+          from: location.pathname,
+          providerId,
+          serviceId,
+        },
+      });
+    } else {
+      navigate(`/booking/${providerId}/${serviceId}`);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 px-6 py-10">
@@ -77,7 +77,6 @@ const handleBooking = (providerId) => {
             return (
               <div
                 key={provider._id}
-                
                 className="relative rounded-2xl overflow-hidden cursor-pointer group shadow-md hover:shadow-xl transition duration-300"
               >
                 {/* Image */}
@@ -118,8 +117,10 @@ const handleBooking = (providerId) => {
                       ● Available
                     </span>
 
-                    <span className="bg-white text-gray-800 text-xs px-3 py-1 rounded-full font-semibold shadow" 
-           onClick={() => handleBooking(provider._id)}>
+                    <span
+                      className="bg-white text-gray-800 text-xs px-3 py-1 rounded-full font-semibold shadow"
+                      onClick={() => handleBooking(provider._id)}
+                    >
                       Book Now
                     </span>
                   </div>

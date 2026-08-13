@@ -12,9 +12,9 @@ export const register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role, 
+      role,
     });
-     await user.save();
+    await user.save();
 
     res.json({ message: "Registered successfully" });
   } catch (err) {
@@ -43,7 +43,7 @@ export const login = async (req, res) => {
         role: user.role,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "7d" },
     );
 
     res.json({

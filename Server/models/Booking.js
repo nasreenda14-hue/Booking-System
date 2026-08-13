@@ -2,60 +2,59 @@ import mongoose from "mongoose";
 
 const BookingSchema = new mongoose.Schema(
   {
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
-        required: true,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     provider: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Provider",
-      required: true
+      required: true,
     },
-     service: {
+    service: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Service",
-      required: true
+      required: true,
     },
     phone: {
-  type: String,
-  required: true,
-},
+      type: String,
+      required: true,
+    },
 
-address: {
-  type: String,
-  required: false,
-},
-    date:{
-    type:Date,
-    required:true
+    address: {
+      type: String,
+      required: false,
     },
-    time:{
-        type:String,
-        
+    date: {
+      type: Date,
+      required: true,
     },
-    status:{
-        type:String,
-        enum:["pending","confirmed","cancelled",],
-        default:"pending",
+    time: {
+      type: String,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "confirmed", "cancelled"],
+      default: "pending",
     },
     price: {
-  type: Number,
-  required: true,
-},
+      type: Number,
+      required: true,
+    },
 
-paymentStatus: {
-  type: String,
-  enum: ["pending", "paid", "failed", "refunded"],
-  default: "pending",
-},
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "paid", "failed", "refunded"],
+      default: "pending",
+    },
 
-paymentId: {
-  type: String,
-  default: null,
-},
-},
-  { timestamps: true }
+    paymentId: {
+      type: String,
+      default: null,
+    },
+  },
+  { timestamps: true },
 );
 
 const Booking = mongoose.model("Booking", BookingSchema);

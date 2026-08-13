@@ -2,7 +2,7 @@ import Category from "../models/Category.js";
 
 export const createCategory = async (req, res) => {
   try {
-    const { name,image } = req.body;
+    const { name, image } = req.body;
 
     if (!name || !image) {
       return res.status(400).json({
@@ -21,14 +21,13 @@ export const createCategory = async (req, res) => {
       });
     }
 
-    const category = await Category.create({ name,image });
+    const category = await Category.create({ name, image });
 
     res.status(201).json({
       success: true,
       message: "Category created",
       category,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -37,9 +36,7 @@ export const createCategory = async (req, res) => {
   }
 };
 
-
-
-// 🔹 GET ALL CATEGORIES
+//  GET ALL CATEGORIES
 export const getCategories = async (req, res) => {
   try {
     const categories = await Category.find();
@@ -48,7 +45,6 @@ export const getCategories = async (req, res) => {
       success: true,
       categories,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -57,9 +53,7 @@ export const getCategories = async (req, res) => {
   }
 };
 
-
-
-// 🔹 GET SINGLE CATEGORY
+//  GET SINGLE CATEGORY
 export const getCategoryById = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id);
@@ -75,7 +69,6 @@ export const getCategoryById = async (req, res) => {
       success: true,
       category,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -84,17 +77,15 @@ export const getCategoryById = async (req, res) => {
   }
 };
 
-
-
-// 🔹 UPDATE CATEGORY
+//  UPDATE CATEGORY
 export const updateCategory = async (req, res) => {
   try {
-    const { name,image } = req.body;
+    const { name, image } = req.body;
 
     const category = await Category.findByIdAndUpdate(
       req.params.id,
-      { name,image },
-      { new: true }
+      { name, image },
+      { new: true },
     );
 
     res.status(200).json({
@@ -102,7 +93,6 @@ export const updateCategory = async (req, res) => {
       message: "Category updated",
       category,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -111,9 +101,7 @@ export const updateCategory = async (req, res) => {
   }
 };
 
-
-
-// 🔹 DELETE CATEGORY
+//  DELETE CATEGORY
 export const deleteCategory = async (req, res) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
@@ -129,7 +117,6 @@ export const deleteCategory = async (req, res) => {
       success: true,
       message: "Category deleted",
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,

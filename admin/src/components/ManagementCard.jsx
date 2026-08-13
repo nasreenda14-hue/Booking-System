@@ -1,4 +1,3 @@
-
 const ManagementCard = ({
   icon,
   iconBg,
@@ -10,9 +9,7 @@ const ManagementCard = ({
 }) => {
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-
       <div className="flex items-start gap-4">
-
         <div
           className={`w-14 h-14 rounded-xl flex items-center justify-center text-2xl shrink-0 ${iconBg}`}
         >
@@ -20,17 +17,10 @@ const ManagementCard = ({
         </div>
 
         <div className="flex-1">
+          <h3 className="text-lg font-bold text-gray-800">{title}</h3>
 
-          <h3 className="text-lg font-bold text-gray-800">
-            {title}
-          </h3>
-
-          <p className="text-sm text-gray-500 mt-1">
-            {description}
-          </p>
-
+          <p className="text-sm text-gray-500 mt-1">{description}</p>
         </div>
-
       </div>
 
       <button
@@ -39,10 +29,8 @@ const ManagementCard = ({
       >
         {buttonText}
       </button>
-
     </div>
   );
 };
 
 export default ManagementCard;
-

@@ -59,24 +59,21 @@ export default function ProviderForm() {
   };
 
   const handleCategoryChange = async (e) => {
-  const categoryId = e.target.value;
+    const categoryId = e.target.value;
 
-  setForm({
-    ...form,
-    category: categoryId
-  });
+    setForm({
+      ...form,
+      category: categoryId,
+    });
 
-  try {
-    const res = await API.get(
-      `/service?category=${categoryId}`
-    );
+    try {
+      const res = await API.get(`/service?category=${categoryId}`);
 
-    setServicesList(res.data.services);
-
-  } catch(error){
-    console.log(error);
-  }
-};
+      setServicesList(res.data.services);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // Submit
   const handleSubmit = async (e) => {
@@ -97,9 +94,7 @@ export default function ProviderForm() {
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-xl shadow-lg w-full max-w-xl"
       >
-        <h2 className="text-2xl font-bold mb-4">
-          Register Provider
-        </h2>
+        <h2 className="text-2xl font-bold mb-4">Register Provider</h2>
 
         {/* Name */}
         <input
@@ -110,11 +105,11 @@ export default function ProviderForm() {
         />
 
         {/* Category */}
-       <select
- className="w-full mb-3 p-2 border rounded"
- value={form.category}
- onChange={handleCategoryChange}
->
+        <select
+          className="w-full mb-3 p-2 border rounded"
+          value={form.category}
+          onChange={handleCategoryChange}
+        >
           <option>Select Category</option>
           {categories.map((c) => (
             <option key={c._id} value={c._id}>
@@ -149,9 +144,7 @@ export default function ProviderForm() {
         />
 
         {/* SERVICES */}
-        <h3 className="font-semibold mt-4 mb-2">
-          Services & Prices
-        </h3>
+        <h3 className="font-semibold mt-4 mb-2">Services & Prices</h3>
 
         {form.services.map((s, index) => (
           <div key={index} className="flex gap-2 mb-2">
@@ -165,9 +158,7 @@ export default function ProviderForm() {
               {servicesList.map((ser) => (
                 <option key={ser._id} value={ser._id}>
                   {ser.name}
-                  {ser.serviceMode === "home" 
-      ? " 🏠 Home" 
-      : " 🏢 Visit"}
+                  {ser.serviceMode === "home" ? " 🏠 Home" : " 🏢 Visit"}
                 </option>
               ))}
             </select>

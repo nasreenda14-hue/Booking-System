@@ -1,32 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import API from '../api/api.js'
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import API from "../api/api.js";
 
 function Service() {
-    const {categoryId}=useParams()
-    const navigate=useNavigate()
+  const { categoryId } = useParams();
+  const navigate = useNavigate();
 
-    const [services,setServices]=useState([])
-    
-    const getServices = async () => {
+  const [services, setServices] = useState([]);
+
+  const getServices = async () => {
     try {
-      const res = await API.get(
-        `/service?category=${categoryId}`
-      );
+      const res = await API.get(`/service?category=${categoryId}`);
       setServices(res.data.services);
     } catch (err) {
       console.error(err);
     }
   };
-    useEffect(()=>{
-        getServices();
-    },[categoryId])
+  useEffect(() => {
+    getServices();
+  }, [categoryId]);
   return (
     <div className="p-6">
       {/* Heading */}
-      <h2 className="text-2xl font-bold mb-6 text-center">
-        Select a Service
-      </h2>
+      <h2 className="text-2xl font-bold mb-6 text-center">Select a Service</h2>
 
       {/* Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -54,14 +50,12 @@ function Service() {
                   {service.description}
                 </p>
               )}
-
-              
             </div>
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-export default Service
+export default Service;

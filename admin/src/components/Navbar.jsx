@@ -14,27 +14,21 @@ const Navbar = () => {
     <header className="bg-white border-b sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="h-16 flex items-center justify-between">
-
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-gray-800">
               Easy Book
             </h1>
 
-            <p className="text-xs text-gray-400">
-              Admin Panel
-            </p>
+            <p className="text-xs text-gray-400">Admin Panel</p>
           </div>
 
           <div className="flex items-center gap-4">
-
             <div className="hidden sm:block text-right">
               <p className="text-sm font-semibold text-gray-800">
                 Administrator
               </p>
 
-              <p className="text-xs text-gray-400">
-                Admin
-              </p>
+              <p className="text-xs text-gray-400">Admin</p>
             </div>
 
             <button
@@ -43,9 +37,7 @@ const Navbar = () => {
             >
               Logout
             </button>
-
           </div>
-
         </div>
       </div>
     </header>
@@ -53,4 +45,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

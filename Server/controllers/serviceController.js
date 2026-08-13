@@ -1,11 +1,10 @@
 import Service from "../models/Service.js";
 
-export const createService=async (req,res)=>{
+export const createService = async (req, res) => {
   try {
-    const { name,category,description,image,serviceMode } = req.body;
+    const { name, category, description, image, serviceMode } = req.body;
 
-  
-    if (!name||!category||!serviceMode) {
+    if (!name || !category || !serviceMode) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
@@ -18,21 +17,26 @@ export const createService=async (req,res)=>{
         message: "Service already exists",
       });
     }
-    const service = await Service.create({ name,category,description,image,serviceMode });
+    const service = await Service.create({
+      name,
+      category,
+      description,
+      image,
+      serviceMode,
+    });
 
-     res.status(201).json({
+    res.status(201).json({
       success: true,
       message: "Service created",
       service,
     });
-
-}catch(err){
+  } catch (err) {
     res.status(500).json({
       success: false,
       message: err.message,
     });
-    }
-}
+  }
+};
 
 export const getServices = async (req, res) => {
   try {
@@ -53,21 +57,17 @@ export const getServices = async (req, res) => {
       success: true,
       services,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message,
     });
-
   }
 };
 
 export const getRecentServices = async (req, res) => {
   try {
-    const services = await Service.find()
-      .sort({ createdAt: -1 })
-      .limit(5);
+    const services = await Service.find().sort({ createdAt: -1 }).limit(5);
 
     res.status(200).json({
       success: true,
@@ -94,7 +94,7 @@ export const updateService = async (req, res) => {
         image,
         serviceMode,
       },
-      { new: true }
+      { new: true },
     );
 
     if (!service) {
@@ -109,7 +109,6 @@ export const updateService = async (req, res) => {
       message: "Service updated",
       service,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -117,7 +116,6 @@ export const updateService = async (req, res) => {
     });
   }
 };
-
 
 export const deleteService = async (req, res) => {
   try {
@@ -134,7 +132,6 @@ export const deleteService = async (req, res) => {
       success: true,
       message: "Service deleted",
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,

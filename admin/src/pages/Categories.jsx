@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import API from "../api/api.js";
 
 const Categories = () => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [categories, setCategories] = useState([]);
-
 
   const [form, setForm] = useState({
     name: "",
@@ -18,7 +17,7 @@ const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-const [deleteId, setDeleteId] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
 
   const fetchCategories = async () => {
     try {
@@ -63,22 +62,15 @@ const [deleteId, setDeleteId] = useState(null);
     try {
       if (editingId) {
         // UPDATE
-        await API.put(
-          `/categories/${editingId}`,
-          form
-        );
+        await API.put(`/categories/${editingId}`, form);
 
         alert("Category updated successfully");
       } else {
-        await API.post(
-          "/categories",
-          form
-        );
+        await API.post("/categories", form);
 
         alert("Category created successfully");
       }
 
-     
       setForm({
         name: "",
         image: "",
@@ -86,19 +78,13 @@ const [deleteId, setDeleteId] = useState(null);
 
       setEditingId(null);
 
-     
       fetchCategories();
-
     } catch (error) {
-      alert(
-        error.response?.data?.message ||
-          "Something went wrong"
-      );
+      alert(error.response?.data?.message || "Something went wrong");
     } finally {
       setSaving(false);
     }
   };
-
 
   const handleEdit = (category) => {
     setEditingId(category._id);
@@ -114,29 +100,22 @@ const [deleteId, setDeleteId] = useState(null);
     });
   };
 
-  
-
   const handleDelete = async () => {
-  if (!deleteId) return;
+    if (!deleteId) return;
 
-  try {
-    await API.delete(`/categories/${deleteId}`);
+    try {
+      await API.delete(`/categories/${deleteId}`);
 
-    alert("Category deleted successfully");
+      alert("Category deleted successfully");
 
-    setShowDeleteModal(false);
-    setDeleteId(null);
+      setShowDeleteModal(false);
+      setDeleteId(null);
 
-    fetchCategories();
-
-  } catch (error) {
-    alert(
-      error.response?.data?.message ||
-        "Failed to delete category"
-    );
-  }
-};
-
+      fetchCategories();
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to delete category");
+    }
+  };
 
   const handleCancel = () => {
     setEditingId(null);
@@ -147,27 +126,17 @@ const [deleteId, setDeleteId] = useState(null);
     });
   };
 
-
-
   return (
     <div className="min-h-screen bg-gray-100">
-
       {/* Navbar */}
 
       <header className="bg-white border-b sticky top-0 z-40">
-
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-
           <div className="h-16 flex items-center justify-between">
-
             <div>
-              <h1 className="text-xl font-bold text-gray-800">
-                Easy Book
-              </h1>
+              <h1 className="text-xl font-bold text-gray-800">Easy Book</h1>
 
-              <p className="text-xs text-gray-400">
-                Category Management
-              </p>
+              <p className="text-xs text-gray-400">Category Management</p>
             </div>
 
             <button
@@ -176,52 +145,35 @@ const [deleteId, setDeleteId] = useState(null);
             >
               ← Dashboard
             </button>
-
           </div>
-
         </div>
-
       </header>
 
       {/* Main */}
 
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
-
         {/* Page heading */}
 
         <div className="mb-8">
-
-          <h2 className="text-3xl font-bold text-gray-800">
-            Categories
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-800">Categories</h2>
 
           <p className="text-gray-500 mt-1">
             Create and manage Easy Book service categories.
           </p>
-
         </div>
 
-       
-
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
-
           <h3 className="text-xl font-bold text-gray-800 mb-5">
-
-            {editingId
-              ? "Edit Category"
-              : "Add New Category"}
-
+            {editingId ? "Edit Category" : "Add New Category"}
           </h3>
 
           <form
             onSubmit={handleSubmit}
             className="grid grid-cols-1 md:grid-cols-2 gap-5"
           >
-
             {/* Name */}
 
             <div>
-
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Category Name
               </label>
@@ -234,13 +186,11 @@ const [deleteId, setDeleteId] = useState(null);
                 placeholder="Example: Beauty"
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
               />
-
             </div>
 
             {/* Image */}
 
             <div>
-
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Image URL
               </label>
@@ -253,13 +203,11 @@ const [deleteId, setDeleteId] = useState(null);
                 placeholder="https://example.com/image.jpg"
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
               />
-
             </div>
 
             {/* Buttons */}
 
             <div className="md:col-span-2 flex gap-3">
-
               <button
                 type="submit"
                 disabled={saving}
@@ -268,12 +216,11 @@ const [deleteId, setDeleteId] = useState(null);
                 {saving
                   ? "Saving..."
                   : editingId
-                  ? "Update Category"
-                  : "Add Category"}
+                    ? "Update Category"
+                    : "Add Category"}
               </button>
 
               {editingId && (
-
                 <button
                   type="button"
                   onClick={handleCancel}
@@ -281,53 +228,33 @@ const [deleteId, setDeleteId] = useState(null);
                 >
                   Cancel
                 </button>
-
               )}
-
             </div>
-
           </form>
-
         </div>
 
-       
-
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-
           <div className="p-6 border-b">
-
-            <h3 className="text-xl font-bold text-gray-800">
-              All Categories
-            </h3>
+            <h3 className="text-xl font-bold text-gray-800">All Categories</h3>
 
             <p className="text-sm text-gray-500 mt-1">
               {categories.length} categories found
             </p>
-
           </div>
 
           {loading ? (
-
             <div className="p-8 text-center text-gray-500">
               Loading categories...
             </div>
-
           ) : categories.length === 0 ? (
-
             <div className="p-8 text-center text-gray-500">
               No categories found.
             </div>
-
           ) : (
-
             <div className="overflow-x-auto">
-
               <table className="w-full">
-
                 <thead className="bg-gray-50">
-
                   <tr>
-
                     <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
                       Image
                     </th>
@@ -339,145 +266,109 @@ const [deleteId, setDeleteId] = useState(null);
                     <th className="text-right px-6 py-4 text-sm font-semibold text-gray-600">
                       Actions
                     </th>
-
                   </tr>
-
                 </thead>
 
                 <tbody className="divide-y">
-
                   {categories.map((category) => (
-
-                    <tr
-                      key={category._id}
-                      className="hover:bg-gray-50"
-                    >
-
+                    <tr key={category._id} className="hover:bg-gray-50">
                       {/* Image */}
 
                       <td className="px-6 py-4">
-
                         <img
                           src={
-                            category.image ||
-                            "https://via.placeholder.com/80"
+                            category.image || "https://via.placeholder.com/80"
                           }
                           alt={category.name}
                           className="w-14 h-14 object-cover rounded-xl"
                         />
-
                       </td>
 
                       {/* Name */}
 
                       <td className="px-6 py-4">
-
                         <p className="font-semibold text-gray-800">
                           {category.name}
                         </p>
-
                       </td>
 
                       {/* Actions */}
 
                       <td className="px-6 py-4">
-
                         <div className="flex justify-end gap-2">
-
                           <button
-                            onClick={() =>
-                              handleEdit(category)
-                            }
+                            onClick={() => handleEdit(category)}
                             className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-sm font-semibold"
                           >
                             Edit
                           </button>
 
                           <button
-  onClick={() => {
-    setDeleteId(category._id);
-    setShowDeleteModal(true);
-  }}
-  className="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-sm font-semibold"
->
-  Delete
-</button>
-{showDeleteModal && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+                            onClick={() => {
+                              setDeleteId(category._id);
+                              setShowDeleteModal(true);
+                            }}
+                            className="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-sm font-semibold"
+                          >
+                            Delete
+                          </button>
+                          {showDeleteModal && (
+                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+                              <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6">
+                                {/* Icon */}
 
-    <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6">
+                                <div className="flex justify-center mb-4">
+                                  <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center">
+                                    <span className="text-2xl">🗑️</span>
+                                  </div>
+                                </div>
 
-      {/* Icon */}
+                                {/* Title */}
 
-      <div className="flex justify-center mb-4">
-        <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center">
-          <span className="text-2xl">
-            🗑️
-          </span>
-        </div>
-      </div>
+                                <h3 className="text-xl font-bold text-gray-800 text-center">
+                                  Delete Category?
+                                </h3>
 
-      {/* Title */}
+                                {/* Message */}
 
-      <h3 className="text-xl font-bold text-gray-800 text-center">
-        Delete Category?
-      </h3>
+                                <p className="text-gray-500 text-center mt-2">
+                                  Are you sure you want to delete this category?
+                                  This action cannot be undone.
+                                </p>
 
-      {/* Message */}
+                                {/* Buttons */}
 
-      <p className="text-gray-500 text-center mt-2">
-        Are you sure you want to delete this category?
-        This action cannot be undone.
-      </p>
+                                <div className="flex gap-3 mt-6">
+                                  <button
+                                    onClick={() => {
+                                      setShowDeleteModal(false);
+                                      setDeleteId(null);
+                                    }}
+                                    className="flex-1 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold transition"
+                                  >
+                                    Cancel
+                                  </button>
 
-      {/* Buttons */}
-
-      <div className="flex gap-3 mt-6">
-
-        <button
-          onClick={() => {
-            setShowDeleteModal(false);
-            setDeleteId(null);
-          }}
-          className="flex-1 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold transition"
-        >
-          Cancel
-        </button>
-
-        <button
-          onClick={handleDelete}
-          className="flex-1 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold transition"
-        >
-          Delete
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-)}
-
+                                  <button
+                                    onClick={handleDelete}
+                                    className="flex-1 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold transition"
+                                  >
+                                    Delete
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </div>
-
                       </td>
-
                     </tr>
-
                   ))}
-
                 </tbody>
-
               </table>
-
             </div>
-
           )}
-
         </div>
-
       </main>
-
     </div>
   );
 };

@@ -4,16 +4,9 @@ import Provider from "../models/Provider.js";
 
 export const createBooking = async (req, res) => {
   try {
-    const {
-      provider,
-      service,
-      address,
-      phone,
-      date,
-      time,
-    } = req.body;
+    const { provider, service, address, phone, date, time } = req.body;
 
-     const user = req.user.id;
+    const user = req.user.id;
 
     const serviceExists = await Service.findById(service);
 
@@ -24,7 +17,6 @@ export const createBooking = async (req, res) => {
       });
     }
 
-    
     const providerExists = await Provider.findById(provider);
 
     if (!providerExists) {
@@ -34,10 +26,8 @@ export const createBooking = async (req, res) => {
       });
     }
 
-    
     const providerService = providerExists.services.find(
-      (s) =>
-        s.service.toString() === service.toString()
+      (s) => s.service.toString() === service.toString(),
     );
 
     if (!providerService) {
@@ -47,16 +37,14 @@ export const createBooking = async (req, res) => {
       });
     }
 
-     const price = providerService.price; 
+    const price = providerService.price;
     if (!price || price <= 0) {
-       return res.status(400).json({
-         success: false, 
-         message: "Invalid service price", 
-        });
-       }
+      return res.status(400).json({
+        success: false,
+        message: "Invalid service price",
+      });
+    }
 
-
-   
     if (!phone || phone.length !== 10) {
       return res.status(400).json({
         success: false,
@@ -64,7 +52,6 @@ export const createBooking = async (req, res) => {
       });
     }
 
-   
     if (serviceExists.serviceMode === "Home") {
       if (!address || address.trim() === "") {
         return res.status(400).json({
@@ -74,7 +61,6 @@ export const createBooking = async (req, res) => {
       }
     }
 
-   
     const bookingDate = new Date(date);
 
     if (isNaN(bookingDate.getTime())) {
@@ -83,12 +69,10 @@ export const createBooking = async (req, res) => {
         message: "Invalid booking date",
       });
     }
-bookingDate.setHours(0, 0, 0, 0);
-   
+    bookingDate.setHours(0, 0, 0, 0);
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
-    
 
     if (bookingDate < today) {
       return res.status(400).json({
@@ -97,7 +81,6 @@ bookingDate.setHours(0, 0, 0, 0);
       });
     }
 
-    
     const count = await Booking.countDocuments({
       provider,
       date: bookingDate,
@@ -105,7 +88,6 @@ bookingDate.setHours(0, 0, 0, 0);
       status: { $ne: "cancelled" },
     });
 
-  
     if (count >= providerExists.workers) {
       return res.status(400).json({
         success: false,
@@ -113,7 +95,6 @@ bookingDate.setHours(0, 0, 0, 0);
       });
     }
 
-   
     const alreadyBooked = await Booking.findOne({
       user,
       provider,
@@ -129,17 +110,13 @@ bookingDate.setHours(0, 0, 0, 0);
       });
     }
 
-  
     const newBooking = new Booking({
       user,
       provider,
       service,
       date: bookingDate,
       time,
-      address:
-        serviceExists.serviceMode === "Home"
-          ? address
-          : "",
+      address: serviceExists.serviceMode === "Home" ? address : "",
       phone,
       price,
       paymentStatus: "pending",
@@ -148,13 +125,11 @@ bookingDate.setHours(0, 0, 0, 0);
 
     const savedBooking = await newBooking.save();
 
-    
     res.status(201).json({
       success: true,
       message: "Booking created successfully",
       booking: savedBooking,
     });
-
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -182,7 +157,6 @@ export const getBookingsByDate = async (req, res) => {
       success: true,
       bookings,
     });
-
   } catch (err) {
     res.status(500).json({
       success: false,

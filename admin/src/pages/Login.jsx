@@ -19,9 +19,7 @@ const Login = () => {
 
     try {
       const res = await API.post("/login", form);
-      
 
-      // Only admin can access this application
       if (res.data.role !== "admin") {
         alert("Access denied. Admin login required.");
         return;
@@ -31,7 +29,6 @@ const Login = () => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.role);
 
-      // Go to admin home
       navigate("/home");
     } catch (err) {
       alert(err.response?.data?.message || "Login failed");

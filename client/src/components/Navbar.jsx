@@ -8,7 +8,6 @@ export default function Navbar() {
   return (
     <nav className="bg-white shadow-md px-6 py-4">
       <div className="flex items-center justify-between">
-
         {/* Logo */}
         <h1 className="text-xl font-bold text-black">
           Book<span className="text-brown-600">Ease</span>
@@ -16,9 +15,12 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-6 text-gray-700">
-
-          <Link to="/" className="hover:text-blue-600">Home</Link>
-          <Link to="/categories" className="hover:text-blue-600">Category</Link>
+          <Link to="/" className="hover:text-blue-600">
+            Home
+          </Link>
+          <Link to="/categories" className="hover:text-blue-600">
+            Category
+          </Link>
 
           {/* Search */}
           <input
@@ -47,9 +49,12 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {open && (
         <div className="flex flex-col gap-4 mt-4 md:hidden text-gray-700">
-
-          <Link to="/" onClick={() => setOpen(false)}>Home</Link>
-          <Link to="/categories" onClick={() => setOpen(false)}>Category</Link>
+          <Link to="/" onClick={() => setOpen(false)}>
+            Home
+          </Link>
+          <Link to="/categories" onClick={() => setOpen(false)}>
+            Category
+          </Link>
 
           <input
             type="text"
